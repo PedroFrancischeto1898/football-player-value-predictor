@@ -1,1 +1,1 @@
-# football-player-value-predictior
+# football-player-value-predictor
