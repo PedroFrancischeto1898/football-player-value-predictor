@@ -40,7 +40,8 @@ dados → preparação → treinamento → avaliação → previsão
 
 ## Estrutura do projeto
 
-```football-player-value-predictor/
+```text
+football-player-value-predictor/
 │
 ├── data/
 │   ├── raw/
