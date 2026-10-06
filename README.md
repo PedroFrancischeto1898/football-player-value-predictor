@@ -4,6 +4,14 @@ Projeto de Machine Learning para estimar o valor de mercado de jogadores de fute
 
 O projeto foi desenvolvido como uma aplicação simples de regressão linear utilizando dados reais de jogadores.
 
+## Live Demo
+
+A aplicação está disponível publicamente em:
+
+**https://football-player-value-predictor.streamlit.app**
+
+A interface permite inserir os dados de um jogador e obter uma estimativa de valor de mercado, além de consultar métricas de desempenho e limitações do modelo.
+
 ## Objetivo
 
 Estimar o valor de mercado de um jogador utilizando cinco características:
@@ -28,11 +36,11 @@ dados → preparação → treinamento → avaliação → previsão
 - scikit-learn
 - matplotlib
 - joblib
+- Streamlit
 
 ## Estrutura do projeto
 
-```text
-football-player-value-predictor/
+```football-player-value-predictor/
 │
 ├── data/
 │   ├── raw/
@@ -49,12 +57,16 @@ football-player-value-predictor/
 ├── src/
 │   ├── prepare_data.py
 │   ├── train_model.py
+│   ├── evaluate_model.py
 │   └── predict.py
 │
-├── .gitignore
+├── app.py
+├── MODEL_CARD.md
+├── DEVELOPMENT.md
 ├── PROJECT_CONTEXT.md
 ├── README.md
-└── requirements.txt
+├── requirements.txt
+└── .gitignore
 ```
 
 ## Dados
@@ -119,7 +131,7 @@ Isso resultou em:
 | Teste | 1.638 |
 | Total | 8.187 |
 
-### Baseline
+### Primeiro experimento: target direto em euros
 
 O primeiro modelo foi treinado diretamente com o valor de mercado em euros.
 
@@ -140,6 +152,29 @@ Após aplicar a transformação logarítmica ao target:
 A transformação reduziu o **MAE em aproximadamente 24%**, indicando menor erro absoluto médio para o conjunto de teste.
 
 O modelo com target logarítmico foi mantido como modelo final deste MVP.
+
+### Comparação com baseline ingênuo
+
+Para verificar se o modelo realmente acrescenta valor em relação a uma previsão simples, foi utilizado como baseline prever sempre a mediana do valor de mercado do conjunto de treino.
+
+| Métrica | Resultado |
+|---|---:|
+| Valor constante do baseline | €1.500.000 |
+| MAE do baseline | €5.195.650 |
+| MAE do modelo | €4.276.655 |
+| Melhoria sobre o baseline | 17,7% |
+
+O modelo reduziu o erro absoluto médio em **17,7%** em comparação com esse baseline.
+
+### Distribuição dos erros
+
+No conjunto de teste:
+
+- 50% das previsões apresentaram erro absoluto de até **€1,08 milhão**;
+- 80% apresentaram erro de até **€4,74 milhões**;
+- 90% apresentaram erro de até **€11,98 milhões**.
+
+Esses valores representam a distribuição empírica dos erros no conjunto de teste e não devem ser interpretados como intervalos de confiança.
 
 ## Visualização
 
@@ -275,13 +310,24 @@ O objetivo não é reproduzir modelos profissionais de avaliação de atletas, m
 
 ## Status
 
-MVP concluído.
+**MVP concluído e publicado.**
 
 O projeto atualmente permite:
 
-- preparar os dados;
+- preparar dados reais de jogadores;
 - treinar uma regressão linear;
-- avaliar as previsões;
-- visualizar os resultados;
-- salvar o modelo;
-- estimar o valor de mercado de um novo jogador.
+- transformar o target com `log1p`;
+- avaliar o modelo em conjunto de teste;
+- comparar o desempenho com um baseline ingênuo;
+- analisar a distribuição dos erros;
+- avaliar desempenho por faixa de valor;
+- gerar visualizações;
+- persistir o modelo treinado;
+- realizar previsões via terminal;
+- realizar previsões por uma interface Streamlit;
+- consultar métricas e limitações do modelo;
+- acessar a aplicação publicamente pela web.
+
+Live demo:
+
+**https://football-player-value-predictor.streamlit.app**
